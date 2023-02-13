@@ -4,16 +4,19 @@ import Header from './components/Header';
 import Categories from './components/Categories';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
+import Skeleton from './components/Skeleton';
 // import pizzas from './assets/pizzas.json';
 
 function App() {
   const [items, setItems] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     fetch('https://63ea2c8d3363c8700363534b.mockapi.io/items')
       .then((response) => response.json())
       .then((arr) => {
         setItems(arr);
+        setIsLoading(false);
       });
   }, []);
 
@@ -28,15 +31,9 @@ function App() {
           </div>
           <h2 className="content__title">All pizza</h2>
           <div className="content__items">
-            {items.map((object) => (
-              <PizzaBlock key={object.id} {...object} />
-              // <PizzaBlock
-              //   title={object.title}
-              //   price={object.price}
-              //   imageUrl={object.imageUrl}
-              //   sizes={object.sizes}
-              //   types={object.types}></PizzaBlock>
-            ))}
+            {isLoading
+              ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
+              : items.map((object) => <PizzaBlock key={object.id} {...object} />)}
           </div>
         </div>
       </div>
