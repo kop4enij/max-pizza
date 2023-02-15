@@ -19,17 +19,18 @@ export const Home = () => {
   }, []);
   return (
     <>
-      <div className="content__top">
-        <Categories />
-        <Sort />
+      <div className="container">
+        <div className="content__top">
+          <Categories />
+          <Sort />
+        </div>
+        <h2 className="content__title">All pizza</h2>
+        <div className="content__items">
+          {isLoading
+            ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
+            : items.map((object) => <PizzaBlock key={object.id} {...object} />)}
+        </div>
       </div>
-      <h2 className="content__title">All pizza</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...new Array(10)].map((_, index) => <Skeleton key={index} />)
-          : items.map((object) => <PizzaBlock key={object.id} {...object} />)}
-      </div>
-      ;
     </>
   );
 };
